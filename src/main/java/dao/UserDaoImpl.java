@@ -44,5 +44,27 @@ public class UserDaoImpl implements UserDao {
 		
 		return rowAffected;
 	}
+	
+	
+	public int login(User user) {
+		int rowAffected = 0;
+		
+		// check if email exists
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		// check if password is correct
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return rowAffected;
+	}
 
 }

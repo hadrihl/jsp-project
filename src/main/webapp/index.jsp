@@ -13,6 +13,7 @@
 	<div>
 		<p><a href="/jsp-project/about">About Us</a></p>
 		<p><a href="/jsp-project/register">Register</a></p>
+		<p><a href="/jsp-project/login">Login</a></p>
 	</div>
 	
 	<footer style="margin-top: 1em;">hadrihl &copy; 2024. Made with love in Penang.</footer>
