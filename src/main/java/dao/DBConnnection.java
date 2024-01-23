@@ -13,7 +13,6 @@ public class DBConnnection {
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(dbURL, user, password);
-		System.err.println("db connect successful.");
 		
 		return connection;
 	}
