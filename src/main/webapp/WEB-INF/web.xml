@@ -37,4 +37,22 @@
   	<url-pattern>/login</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>dashboard</servlet-name>
+  	<servlet-class>servlet.DashboardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>dashboard</servlet-name>
+  	<url-pattern>/dashboard</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>forgot</servlet-name>
+  	<servlet-class>servlet.ForgotServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>forgot</servlet-name>
+  	<url-pattern>/forgot</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

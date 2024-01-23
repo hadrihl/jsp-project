@@ -2,7 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.mysql.cj.protocol.Resultset;
 
 import entity.User;
 
@@ -46,25 +49,50 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	
-	public int login(User user) {
-		int rowAffected = 0;
+	public boolean login(User user) {
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+		String sql = "SELECT password FROM user WHERE email = ?";
 		
 		// check if email exists
 		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, user.getEmail());
 			
-		} catch (Exception e) {
-			// TODO: handle exception
+			resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				String storedPassword = resultSet.getString("password");
+				return user.getPassword().matches(storedPassword);
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			
+			try {
+				
+				if(statement != null) {
+					statement.close();
+				}
+				
+				if(connection != null) {
+					connection.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		
-		// check if password is correct
-		try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		return rowAffected;
+		return false;
 	}
 
 }

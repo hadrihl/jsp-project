@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBConnnection {
 
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
-		String dbURL = "jdbc:mysql://localhost:3306/js-project";
+		String dbURL = "jdbc:mysql://localhost:3306/jsp-project";
 		String user = "root";
 		String password = "";
 		

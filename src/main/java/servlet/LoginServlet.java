@@ -36,14 +36,16 @@ public class LoginServlet extends HttpServlet {
 		user.setPassword(password);
 	
 		// validate user
-		int rowAffected = myUserDaoImpl.login(user);
+		boolean isValidUser = myUserDaoImpl.login(user);
 		
 		// if success, redirect user to dashboard page
 		// otherwise, show wrong email/password
-		if(rowAffected == 1) {
+		if(isValidUser) {
 			resp.sendRedirect("/jsp-project/dashboard");
 		} else {
-			resp.sendRedirect("/login");
+			req.setAttribute("errorMessage", "Email/Password are incorect! Please try again.");
+			RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+			dispatcher.forward(req, resp);
 		}
 	}
 
