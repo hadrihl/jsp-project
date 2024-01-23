@@ -47,7 +47,7 @@ public class RegisterServlet extends HttpServlet {
 		// pass to UserDaoImpl to insert the data
 		myDao.insert(user);
 		
-		resp.sendRedirect("/jsp-project");
+		resp.sendRedirect("/jsp-project/confirm");
 	}
 
 }

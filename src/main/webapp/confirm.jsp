@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Confirmation Email</title>
+<title>Confirmation</title>
 </head>
 <body>
 	<h2>Registration Confirmation</h2>

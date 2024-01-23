@@ -55,4 +55,13 @@
   	<url-pattern>/forgot</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>confirm</servlet-name>
+  	<servlet-class>servlet.ConfirmServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>confirm</servlet-name>
+  	<url-pattern>/confirm</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
