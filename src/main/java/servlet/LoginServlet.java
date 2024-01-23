@@ -41,10 +41,9 @@ public class LoginServlet extends HttpServlet {
 		// if success, redirect user to dashboard page
 		// otherwise, show wrong email/password
 		if(isValidUser) {
-			System.err.println("email: " + user.getEmail());
 			req.setAttribute("email", user.getEmail());
-			RequestDispatcher dispatcher = req.getRequestDispatcher("dashboard.jsp");
-			dispatcher.forward(req, resp);
+			req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
+			
 		} else {
 			req.setAttribute("errorMessage", "Email/Password are incorect! Please try again.");
 			RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");

@@ -10,13 +10,19 @@
 <body>
 	<h2>Login here</h2>
 	<form action="login" method="post">
-		<label for="email">Email</label>
-		<input type="text" id="email" name="email" placeholder="Enter your email" required />
+		<div class="form-group mt-2">
+			<label for="email">Email</label>
+			<input type="text" id="email" name="email" placeholder="Enter your email" required />
+		</div>
 		
-		<label for="password">Password</label>
-		<input type="password" id="password" name="password" placeholder="Enter your password" required />
+		<div class="form-group mt-2">
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" placeholder="Enter your password" required />
+		</div>
 		
-		<button style="margin-top: 1em;" type="submit">Login</button>
+		<div class="form-group mt-2">
+			<button style="margin-top: 1em;" type="submit">Login</button>
+		</div>
 		
 		<c:if test="${not empty errorMessage}">
 			<p style="color: red;">${errorMessage} Forgot password? Click <a href="/jsp-project/forgot">here</a></p>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +39,12 @@
 			<label for="city">City</label>
 			<input type="text" id="city" name="city" placeholder="Enter City" />
 		</div>
+		
+		<c:if test="${not empty errorMessage}">
+		<div class="form-group mt-2">
+			<p style="color: red;">${errorMessage} Login? Click <a href="/jsp-project/login">here</a></p>
+		</div>
+		</c:if>
 		
 		<div class="form-group mt-2">
 			<button type="submit">Submit</button>

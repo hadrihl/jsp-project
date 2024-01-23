@@ -5,49 +5,67 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mysql.cj.protocol.Resultset;
+import javax.mail.MessagingException;
 
 import entity.User;
+import utility.EmailSender;
+import utility.TokenGenerator;
 
 public class UserDaoImpl implements UserDao {
 
 	@Override
-	public int insert(User user) {
-		
-		//=====================================
-		// insert data to db
-		int rowAffected = 0;
+	public boolean insert(User user) {
+	
 		Connection connection = null;
-		String sql = "insert into user (firstname,lastname,email,password,city) values (?,?,?,?,?)";
+		PreparedStatement statement = null;
+		
+		String sql = "SELECT email from user WHERE email = ?";
 		
 		try {
 			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, user.getEmail());
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			// if email not exists, insert user information into database
+			if(!resultSet.next()) {
+				String sql2 = "insert into user (firstname,lastname,email,password,city, token) values (?,?,?,?,?,?)";
+				
+				statement = connection.prepareStatement(sql2);
+				statement.setString(1, user.getFirstname());
+				statement.setString(2, user.getLastname());
+				statement.setString(3, user.getEmail());
+				statement.setString(4, user.getPassword());
+				statement.setString(5, user.getCity());
+				
+				String token = TokenGenerator.generateToken();
+				statement.setString(6, token);
+				
+				int rowAffected = statement.executeUpdate();
+				System.err.println("insert: " + rowAffected);
+				
+				try {
+					// send confirmation email
+					EmailSender.sendEmail(user.getEmail(), "JSP-Project: Confirmation Email", "your token = " + token);
+				
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+				
+				return true;
+			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		}
 		
-		try {
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, user.getFirstname());
-			statement.setString(2, user.getLastname());
-			statement.setString(3, user.getEmail());
-			statement.setString(4, user.getPassword());
-			statement.setString(5, user.getCity());
-			
-			rowAffected = statement.executeUpdate();
-			
-		} catch(SQLException e) {
-			e.printStackTrace();	
-		}
-		//=====================================
-		
-		return rowAffected;
+		return false; // email not exist
 	}
-	
 	
 	public boolean login(User user) {
 		
@@ -90,6 +108,33 @@ public class UserDaoImpl implements UserDao {
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean insertToken(String email, String token) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "UPDATE user SET token = ? WHERE email = ?";
+		
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, token);
+			statement.setString(2, email);
+			
+			System.err.println("query: " + statement.toString()); 
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		
 		return false;
