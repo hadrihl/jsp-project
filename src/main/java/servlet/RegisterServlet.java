@@ -35,12 +35,6 @@ public class RegisterServlet extends HttpServlet {
 		String cpassword = req.getParameter("cpassword");
 		String city = req.getParameter("city");
 		
-		System.err.println("firstname: " + firstname);
-		System.err.println("lastname: " + lastname);
-		System.err.println("email: " + email);
-		System.err.println("password: " + password);
-		System.err.println("city: " + city);
-		
 		// catch data and store it into user object
 		// in industry practice, you should VALIDATE IT!!
 		User user = new User();
