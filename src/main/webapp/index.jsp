@@ -4,18 +4,42 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Homepage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malaysian Software Developer Portal</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<h1>Homepage</h1>
-	<p>Welcome to XYZ Portal.</p>
-	
-	<div>
-		<p><a href="/jsp-project/about">About Us</a></p>
-		<p><a href="/jsp-project/register">Register</a></p>
-		<p><a href="/jsp-project/login">Login</a></p>
-	</div>
-	
-	<footer style="margin-top:2em;">hadrihl &copy; 2024. Made with &#10084; in Penang.</footer>
+    <header>
+        <nav>
+            <div class="logo">MSDP</div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="#discussions">Discussions</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/search">Search</a></li>
+            </ul>
+        </nav>
+        <section class="hero" id="home">
+            <h1>Welcome to the Malaysian Software Developer Portal</h1>
+            <p>A community hub for Malaysian developers to discuss and share about software development and IT.</p>
+            <button>Join Us</button>
+        </section>
+    </header>
+    
+    <main>
+        <section class="discussion" id="discussions">
+            <h2>Latest Discussions</h2>
+            <!-- Discussion topics will be listed here -->
+        </section>
+    </main>
+
+    <footer id="contact">
+        <p>Contact us at: <a href="mailto:contact@msdp.com">contact@msdp.com</a></p>
+        <p>Follow us on <a href="#">social media</a></p>
+        <p>hadrihl &copy; 2024. Made with &#10084; in Penang.</p>
+    </footer>
 </body>
 </html>
