@@ -14,8 +14,7 @@
 	
 	<p>You will be redirect to homepage in <span id="count">5</span></p>
 	
-	<footer style="margin-top: 1em;">hadrihl &copy; 2024. Made with love in Penang.</footer>
-	
+	<footer style="margin-top:2em;">hadrihl &copy; 2024. Made with &#10084; in Penang.</footer>
 	<script>
 		let counter = +document.getElementById('count').innerText;
 		let count = counter - 1;

@@ -51,6 +51,6 @@
 		</div>
 	</form>
 	
-	<footer style="margin-top: 1em;">hadrihl &copy; 2024. Made with love in Penang.</footer>
+	<footer style="margin-top:2em;">hadrihl &copy; 2024. Made with &#10084; in Penang.</footer>
 </body>
 </html>

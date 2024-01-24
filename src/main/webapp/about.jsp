@@ -10,6 +10,6 @@
 	<h1>About Us</h1>
 	<p>We are from a dedicated team who believes to serve the community etc.</p>
 	
-	<footer style="margin-top: 1em;">hadrihl &copy; 2024. Made with love in Penang.</footer>
+	<footer style="margin-top:2em;">hadrihl &copy; 2024. Made with &#10084; in Penang.</footer>
 </body>
 </html>

@@ -12,7 +12,8 @@
 	<h2>Welcome, ${email}!</h2>
 	</c:if>
 	<p>This is a dashboard page.</p>
+	<p><a href="/jsp-project/search">search</a></p>
 	
-	<footer style="margin-top: 1em;">hadrihl &copy; 2024. Made with love in Penang.</footer>
+	<footer style="margin-top:2em;">hadrihl &copy; 2024. Made with &#10084; in Penang.</footer>
 </body>
 </html>

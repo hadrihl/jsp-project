@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
@@ -140,4 +142,50 @@ public class UserDaoImpl implements UserDao {
 		return false;
 	}
 
+	public List<User> getUsersByKeyword(String keyword) {
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		List<User> users = new ArrayList<User>();
+		
+		String sql = "SELECT * FROM user WHERE user.firstname = ? OR "
+				+ "user.lastname = ? OR "
+				+ "user.email = ? OR "
+				+ "user.city = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, keyword);
+			statement.setString(2, keyword);
+			statement.setString(3, keyword);
+			statement.setString(4, keyword);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			
+			while(resultSet.next()) {
+				User user = new User();
+				user.setId(resultSet.getLong("id"));
+				user.setFirstname(resultSet.getString("firstname"));
+				user.setLastname(resultSet.getString("lastname"));
+				user.setEmail(resultSet.getString("email"));
+				user.setCity(resultSet.getString("city"));
+				users.add(user);
+			}
+			
+			resultSet.close();
+			statement.close();
+			connection.close();
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+		
+		return users;
+	}
 }
