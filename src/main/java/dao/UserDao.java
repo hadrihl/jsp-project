@@ -11,5 +11,7 @@ public interface UserDao {
 	
 	public boolean insertToken(String email, String token);
 	
+	public boolean verifyToken(String token);
+	
 	public List<User> getUsersByKeyword(String keyword);
 }

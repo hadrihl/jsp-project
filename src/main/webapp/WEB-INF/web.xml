@@ -72,4 +72,13 @@
   	<servlet-name>search</servlet-name>
   	<url-pattern>/search</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>verify</servlet-name>
+  	<servlet-class>servlet.VerifyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>verify</servlet-name>
+  	<url-pattern>/verify</url-pattern>
+  </servlet-mapping>
 </web-app>

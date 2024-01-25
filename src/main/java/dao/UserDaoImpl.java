@@ -49,7 +49,8 @@ public class UserDaoImpl implements UserDao {
 				
 				try {
 					// send confirmation email
-					EmailSender.sendEmail(user.getEmail(), "JSP-Project: Confirmation Email", "your token = " + token);
+					String url = "http://localhost:8080/jsp-project/verify?token=" + token;
+					EmailSender.sendEmail(user.getEmail(), "JSP-Project: Confirmation Email", "Click \"" + url + "\" to verify.");
 				
 				} catch (MessagingException e) {
 					e.printStackTrace();
@@ -137,6 +138,30 @@ public class UserDaoImpl implements UserDao {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		
+		return false;
+	}
+	
+	public boolean verifyToken(String token) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "SELECT email FROM user WHERE user.token = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, token);
+			
+			ResultSet resultSet = statement.executeQuery();	
+			
+			return resultSet.next();
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return false;

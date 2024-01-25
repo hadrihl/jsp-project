@@ -15,8 +15,8 @@ public class EmailSender {
 
 	private static final String HOST = "smtp.gmail.com";
 	private static final int PORT = 587;
-	private static final String USERNAME = "linkemein.project";
-	private static final String PASSWORD = "mxxd rppc ykno kubp";
+	private static final String USERNAME = "linkedmein.project";
+	private static final String PASSWORD = "mxxdrppcyknokubp";
 	
 	public static void sendEmail(String recipient, String subject, String content)
 			throws MessagingException {
