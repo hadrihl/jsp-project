@@ -13,6 +13,7 @@ import dao.DBConnnection;
 import dao.UserDao;
 import dao.UserDaoImpl;
 import entity.User;
+import utility.TokenGenerator;
 
 public class RegisterServlet extends HttpServlet {
 	
@@ -45,9 +46,16 @@ public class RegisterServlet extends HttpServlet {
 		user.setCity(city);
 		
 		// pass to UserDaoImpl to insert the data
-		myDao.insert(user);
+		boolean rowAffected = myDao.insert(user);
 		
-		resp.sendRedirect("/jsp-project");
+		if(rowAffected) {
+			resp.sendRedirect("/jsp-project/confirm");
+			
+		} else {
+			req.setAttribute("errorMessage", "user/email already exists!");
+			RequestDispatcher dispatcher = req.getRequestDispatcher("register.jsp");
+			dispatcher.forward(req, resp);
+		}
 	}
 
 }
