@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 import dao.UserDaoImpl;
@@ -41,7 +42,11 @@ public class LoginServlet extends HttpServlet {
 		// if success, redirect user to dashboard page
 		// otherwise, show wrong email/password
 		if(isValidUser) {
+			String uid = String.valueOf(myUserDaoImpl.getUserIdByEmail(user.getEmail())); 
+			
+			req.setAttribute("uid", uid);
 			req.setAttribute("email", user.getEmail());
+			
 			req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
 			
 		} else {

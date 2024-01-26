@@ -14,4 +14,10 @@ public interface UserDao {
 	public boolean verifyToken(String token);
 	
 	public List<User> getUsersByKeyword(String keyword);
+	
+	public Long getUserIdByEmail(String email);
+	
+	public User getUserById(String uid);
+	
+	public boolean updateUserProfile(String firstname, String lastname, String city, String id);
 }

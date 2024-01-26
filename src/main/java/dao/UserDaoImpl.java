@@ -213,4 +213,98 @@ public class UserDaoImpl implements UserDao {
 		
 		return users;
 	}
+	
+	public Long getUserIdByEmail(String email) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "SELECT id FROM user WHERE user.email = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, email);
+			
+			ResultSet resultSet = statement.executeQuery();		
+			
+			if(resultSet.next()) {
+				return resultSet.getLong("id");
+			} else {
+				System.err.println("issue with sql.");
+			}
+		
+			return 0L;
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public User getUserById(String id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "SELECT * FROM user WHERE user.id = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, id);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				User user = new User();
+				user.setId(resultSet.getLong("id")); 
+				user.setFirstname(resultSet.getString("firstname"));
+				user.setLastname(resultSet.getString("lastname"));
+				user.setCity(resultSet.getString("city"));
+				
+				resultSet.close();
+				statement.close();
+				connection.close();
+				return user;
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public boolean updateUserProfile(String firstname, String lastname, String city, String id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "UPDATE user SET firstname=?, lastname=?, city=? WHERE id=?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, firstname);
+			statement.setString(2, lastname);
+			statement.setString(3, city);
+			statement.setString(4, id);
+			
+			int rowAffected = statement.executeUpdate();
+			
+			if(rowAffected == 1) {
+				return true;
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 }

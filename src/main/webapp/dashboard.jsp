@@ -13,6 +13,7 @@
 	</c:if>
 	<p>This is a dashboard page.</p>
 	<p><a href="/jsp-project/search">search</a></p>
+	<p><a href="/jsp-project/user?uid=${uid}">update</a> profile</p>
 	
 	<footer style="margin-top:2em;">hadrihl &copy; 2024. Made with &#10084; in Penang.</footer>
 </body>
