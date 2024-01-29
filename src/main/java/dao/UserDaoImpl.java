@@ -168,7 +168,7 @@ public class UserDaoImpl implements UserDao {
 		return false;
 	}
 	
-	public String getUserEmailByToken(String token) {
+	public String getEmailByToken(String token) {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		String sql = "SELECT email FROM user WHERE user.token = ?";
@@ -177,6 +177,8 @@ public class UserDaoImpl implements UserDao {
 		try {
 			connection = DBConnnection.getConnection();
 			statement = connection.prepareStatement(sql);
+			statement.setString(1, token);
+			
 			resultSet = statement.executeQuery();
 			
 			if(resultSet.next()) {

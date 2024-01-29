@@ -13,7 +13,7 @@ public interface UserDao {
 	
 	public boolean verifyToken(String token);
 	
-	public String getUserEmailByToken(String token);
+	public String getEmailByToken(String token);
 	
 	public List<User> getUsersByKeyword(String keyword);
 	

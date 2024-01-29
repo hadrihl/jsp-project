@@ -21,7 +21,7 @@ public class ResetPasswordServlet extends HttpServlet {
 		UserDao myDaoImpl = new UserDaoImpl();
 		
 		if(myDaoImpl.verifyToken(token)) {
-			String email = myDaoImpl.getUserEmailByToken(token);
+			String email = myDaoImpl.getEmailByToken(token);
 			
 			req.setAttribute("email", email);
 			RequestDispatcher dispatcher = req.getRequestDispatcher("reset-success.jsp");
