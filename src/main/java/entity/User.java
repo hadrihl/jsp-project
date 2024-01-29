@@ -14,6 +14,10 @@ public class User {
 	
 	private String city;
 	
+	private String company; 
+	
+	private String country;
+	
 	// default constructor
 	public User() {
 		super();
@@ -66,5 +70,21 @@ public class User {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }

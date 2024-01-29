@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import com.mysql.cj.protocol.Resultset;
+
 import entity.User;
 import utility.EmailSender;
 import utility.TokenGenerator;
@@ -120,7 +122,7 @@ public class UserDaoImpl implements UserDao {
 	public boolean insertToken(String email, String token) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		String sql = "UPDATE user SET token = ? WHERE email = ?";
+		String sql = "UPDATE user SET token=? WHERE email=?";
 		
 		
 		try {
@@ -129,15 +131,14 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(1, token);
 			statement.setString(2, email);
 			
-			System.err.println("query: " + statement.toString()); 
+			int rowAffected = statement.executeUpdate();
+			return true;
 			
-			ResultSet resultSet = statement.executeQuery();
-			
-			if(resultSet.next()) {
-				return true;
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return false;
@@ -165,6 +166,31 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 		return false;
+	}
+	
+	public String getUserEmailByToken(String token) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "SELECT email FROM user WHERE user.token = ?";
+		ResultSet resultSet = null;
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				return resultSet.getString("email");
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	public List<User> getUsersByKeyword(String keyword) {
@@ -217,7 +243,7 @@ public class UserDaoImpl implements UserDao {
 	public Long getUserIdByEmail(String email) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		String sql = "SELECT id FROM user WHERE user.email = ?";
+		String sql = "SELECT * FROM user WHERE user.email = ?";
 		
 		try {
 			connection = DBConnnection.getConnection();
@@ -306,5 +332,81 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 		return false;
+	}
+	
+	public User getUserByEmail(String email) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "SELECT * FROM user WHERE user.email = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, email);
+			ResultSet resultSet = null;
+			
+			resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				User user = new User();
+				user.setId(resultSet.getLong("id"));
+				user.setEmail(resultSet.getString("email"));
+				return user;
+			}
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public boolean forgotPassword(String email) {
+
+		User user = getUserByEmail(email);
+		
+		if(user == null) {
+			return false;
+		} else {
+			System.err.println("uid" + user.getId());
+			//generate token
+			String token = TokenGenerator.generateToken();
+			insertToken(user.getEmail(), token);
+			
+			try {
+				// send email
+				String url = "http://localhost:8080/jsp-project/resetpassword?token=" + token;
+				EmailSender.sendEmail(user.getEmail(), "JSP-Project: Reset Password", "Click \"" + url + "\" to reset your password.");
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+			
+			return true;
+		}
+	}
+	
+	public void resetPassword(String email, String password) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "UPDATE user SET password = ? WHERE email = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, password);
+			statement.setString(2, email);
+			
+			statement.executeUpdate();
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
