@@ -44,6 +44,11 @@ public class LoginServlet extends HttpServlet {
 		if(isValidUser) {
 			String uid = String.valueOf(myUserDaoImpl.getUserIdByEmail(user.getEmail())); 
 			
+			//set user session
+			HttpSession session = req.getSession();
+			session.setAttribute("user", user.getEmail());
+			session.setMaxInactiveInterval(30 * 60); // 30 minutes timeout
+			
 			req.setAttribute("uid", uid);
 			req.setAttribute("email", user.getEmail());
 			
