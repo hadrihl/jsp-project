@@ -32,8 +32,14 @@
             <label for="cpassword">Confirm Password:</label><br>
             <input type="password" id="cpassword" name="cpassword" required><br>
             
+            <label for="company">Company:</label><br>
+            <input type="text" id="company" name="company" required><br><br>
+            
             <label for="city">City:</label><br>
             <input type="text" id="city" name="city" required><br><br>
+            
+            <label for="country">Country:</label><br>
+            <input type="text" id="country" name="country" required><br><br>
             
             <button type="submit">Register</button>
             

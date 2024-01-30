@@ -1,3 +1,4 @@
-/utility/
-/servlet/
 /dao/
+/entity/
+/servlet/
+/utility/
