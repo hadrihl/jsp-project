@@ -21,7 +21,7 @@ public interface UserDao {
 	
 	public User getUserById(String uid);
 	
-	public boolean updateUserProfile(String firstname, String lastname, String city, String id);
+	public boolean updateUserProfile(String firstname, String lastname, String company, String city, String country, String id);
 	
 	public boolean forgotPassword(String email);
 	

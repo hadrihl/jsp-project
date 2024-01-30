@@ -13,13 +13,19 @@
 		<input type="hidden" id="id" name="id" value="${user.id}" /><br>
 		
 		<label for="firstname">Firstname</label>
-		<input type="text" id="firstname" name="firstname" value="${user.firstname}" /><br>
+		<input type="text" id="firstname" name="firstname" value="${user.firstname}" /><br><br>
 		
 		<label for="lastname">Lastname</label>
-		<input type="text" id="lastname" name="lastname" value="${user.lastname}" /><br>
+		<input type="text" id="lastname" name="lastname" value="${user.lastname}" /><br><br>
+		
+		<label for="company">Company</label>
+		<input type="text" id="company" name="company" value="${user.company}" /><br><br>
 		
 		<label for="city">City</label>
 		<input type="text" id="city" name="city" value="${user.city}" /><br><br>
+		
+		<label for="country">Country</label>
+		<input type="text" id="country" name="country" value="${user.country}" /><br><br>
 		
 		<a href="/jsp-project/dashboard">Cancel</a>
 		<button type="submit">Update</button>

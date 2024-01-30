@@ -34,17 +34,19 @@ public class UserDaoImpl implements UserDao {
 			
 			// if email not exists, insert user information into database
 			if(!resultSet.next()) {
-				String sql2 = "insert into user (firstname,lastname,email,password,city, token) values (?,?,?,?,?,?)";
+				String sql2 = "insert into user (firstname,lastname,email,password,company,city,country,token) values (?,?,?,?,?,?,?,?)";
 				
 				statement = connection.prepareStatement(sql2);
 				statement.setString(1, user.getFirstname());
 				statement.setString(2, user.getLastname());
 				statement.setString(3, user.getEmail());
 				statement.setString(4, user.getPassword());
-				statement.setString(5, user.getCity());
+				statement.setString(5, user.getCompany());
+				statement.setString(6, user.getCity());
+				statement.setString(7, user.getCountry());
 				
 				String token = TokenGenerator.generateToken();
-				statement.setString(6, token);
+				statement.setString(8, token);
 				
 				int rowAffected = statement.executeUpdate();
 				System.err.println("insert: " + rowAffected);
@@ -290,7 +292,9 @@ public class UserDaoImpl implements UserDao {
 				user.setId(resultSet.getLong("id")); 
 				user.setFirstname(resultSet.getString("firstname"));
 				user.setLastname(resultSet.getString("lastname"));
+				user.setCompany(resultSet.getString("company"));
 				user.setCity(resultSet.getString("city"));
+				user.setCountry(resultSet.getString("country"));
 				
 				resultSet.close();
 				statement.close();
@@ -307,18 +311,20 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 	
-	public boolean updateUserProfile(String firstname, String lastname, String city, String id) {
+	public boolean updateUserProfile(String firstname, String lastname, String company, String city, String country, String id) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		String sql = "UPDATE user SET firstname=?, lastname=?, city=? WHERE id=?";
+		String sql = "UPDATE user SET firstname=?, lastname=?, company=?, city=?, country=? WHERE id=?";
 		
 		try {
 			connection = DBConnnection.getConnection();
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, firstname);
 			statement.setString(2, lastname);
-			statement.setString(3, city);
-			statement.setString(4, id);
+			statement.setString(3, company);
+			statement.setString(4, city);
+			statement.setString(5, country);
+			statement.setString(6, id);
 			
 			int rowAffected = statement.executeUpdate();
 			
@@ -403,12 +409,8 @@ public class UserDaoImpl implements UserDao {
 			
 			statement.executeUpdate();
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 }

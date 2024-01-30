@@ -31,12 +31,14 @@ public class UserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String firstname = req.getParameter("firstname");
 		String lastname = req.getParameter("lastname");
+		String company = req.getParameter("company");
 		String city = req.getParameter("city");
+		String country = req.getParameter("country");
 		String uid = req.getParameter("id");
 		
 		UserDao myDaoImpl = new UserDaoImpl();
-		boolean update = myDaoImpl.updateUserProfile(firstname, lastname, city, uid);
-		
+		boolean update = myDaoImpl.updateUserProfile(firstname, lastname, company, city, country, uid);
+		System.err.println("boolean update: " + update);
 		if(update) {
 			User user = myDaoImpl.getUserById(uid);
 			req.setAttribute("user", user);
