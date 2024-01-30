@@ -397,20 +397,21 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	public void resetPassword(String email, String password) {
-		Connection connection = null;
-		PreparedStatement statement = null;
 		String sql = "UPDATE user SET password = ? WHERE email = ?";
 		
-		try {
-			connection = DBConnnection.getConnection();
-			statement = connection.prepareStatement(sql);
+		try (Connection connection = DBConnnection.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+		
 			statement.setString(1, password);
 			statement.setString(2, email);
 			
 			statement.executeUpdate();
 			
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();	
 		}
 	}
 }
