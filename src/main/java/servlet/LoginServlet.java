@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
 		dispatcher.forward(req, resp);
 	}
@@ -42,17 +43,24 @@ public class LoginServlet extends HttpServlet {
 		// if success, redirect user to dashboard page
 		// otherwise, show wrong email/password
 		if(isValidUser) {
-			String uid = String.valueOf(myUserDaoImpl.getUserIdByEmail(user.getEmail())); 
+			User uid = new User();
+			uid = myUserDaoImpl.getUserByEmail(user.getEmail());
 			
 			//set user session
 			HttpSession session = req.getSession();
-			session.setAttribute("user", user.getEmail());
+			session.setAttribute("username", uid.getUsername());
+
+			if(uid.getUserType().equals("1")) {
+				req.setAttribute("adm", uid.getUsername());
+			} else {
+				req.setAttribute("user", uid.getUsername());
+			}
+			
+			req.setAttribute("id", uid.getId());
+			req.setAttribute("username", uid.getUsername());
 			session.setMaxInactiveInterval(30 * 60); // 30 minutes timeout
-			
-			req.setAttribute("uid", uid);
-			req.setAttribute("email", user.getEmail());
-			
-			req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("dashboard.jsp");
+			dispatcher.forward(req, resp);
 			
 		} else {
 			req.setAttribute("errorMessage", "Email/Password are incorect! Please try again.");

@@ -20,19 +20,29 @@ public class DashboardServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		HttpSession session = req.getSession(false);
-		if(session == null || session.getAttribute("user") == null) {
-			resp.sendRedirect("login.jsp");
-		} else {
-			String email = session.getAttribute("user").toString();
-			UserDao myDaoImpl = new UserDaoImpl();
-			User user = myDaoImpl.getUserByEmail(email);
-			
-			req.setAttribute("uid", user.getId());
-		}
+		HttpSession session = req.getSession();
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("dashboard.jsp");
-		dispatcher.forward(req, resp);
+		System.err.println("session.username: " + session.getAttribute("username"));
+		
+		if(session == null || session.getAttribute("username") == null) {
+			resp.sendRedirect("/jsp-project/login");
+		
+		} else {
+			User user = new User();
+			UserDao myDaoImpl = new UserDaoImpl();
+			user = myDaoImpl.getUserByUsername(session.getAttribute("username").toString());
+			
+			if(user.getUserType().equals("1")) {
+				req.setAttribute("adm", user.getUsername());
+			} else {
+				req.setAttribute("user", user.getUsername());
+			}
+			
+			
+			req.setAttribute("id", user.getId());
+			req.setAttribute("username", user.getUsername());
+			RequestDispatcher dispatcher = req.getRequestDispatcher("dashboard.jsp");
+			dispatcher.forward(req, resp);
+		}
 	}
-
 }

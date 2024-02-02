@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 import dao.UserDaoImpl;
@@ -18,13 +19,21 @@ public class UserServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String uid = req.getParameter("uid");
-		UserDao myDaoImpl = new UserDaoImpl();
-		User user = myDaoImpl.getUserById(uid);
 		
-		req.setAttribute("user", user);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("user.jsp");
-		dispatcher.forward(req, resp);
+		HttpSession session = req.getSession(false);
+		
+		if(session == null || session.getAttribute("username") == null) {
+			resp.sendRedirect("/jsp-project/login");
+			
+		} else {
+			String uid = req.getParameter("id");
+			UserDao myDaoImpl = new UserDaoImpl();
+			User user = myDaoImpl.getUserById(uid);
+			
+			req.setAttribute("user", user);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("user.jsp");
+			dispatcher.forward(req, resp);
+		}
 	}
 	
 	@Override

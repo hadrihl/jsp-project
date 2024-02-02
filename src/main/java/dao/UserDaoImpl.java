@@ -34,19 +34,20 @@ public class UserDaoImpl implements UserDao {
 			
 			// if email not exists, insert user information into database
 			if(!resultSet.next()) {
-				String sql2 = "insert into user (firstname,lastname,email,password,company,city,country,token) values (?,?,?,?,?,?,?,?)";
+				String sql2 = "insert into user (firstname, lastname, username, email, password, company, city, country, token) values (?,?,?,?,?,?,?,?,?)";
 				
 				statement = connection.prepareStatement(sql2);
 				statement.setString(1, user.getFirstname());
 				statement.setString(2, user.getLastname());
-				statement.setString(3, user.getEmail());
-				statement.setString(4, user.getPassword());
-				statement.setString(5, user.getCompany());
-				statement.setString(6, user.getCity());
-				statement.setString(7, user.getCountry());
+				statement.setString(3, user.getUsername());
+				statement.setString(4, user.getEmail());
+				statement.setString(5, user.getPassword());
+				statement.setString(6, user.getCompany());
+				statement.setString(7, user.getCity());
+				statement.setString(8, user.getCountry());
 				
 				String token = TokenGenerator.generateToken();
-				statement.setString(8, token);
+				statement.setString(9, token);
 				
 				int rowAffected = statement.executeUpdate();
 				System.err.println("insert: " + rowAffected);
@@ -345,7 +346,7 @@ public class UserDaoImpl implements UserDao {
 	public User getUserByEmail(String email) {
 		Connection connection = null;
 		PreparedStatement statement = null;
-		String sql = "SELECT * FROM user WHERE user.email = ?";
+		String sql = "SELECT * FROM user WHERE email = ?";
 		
 		try {
 			connection = DBConnnection.getConnection();
@@ -359,6 +360,8 @@ public class UserDaoImpl implements UserDao {
 				User user = new User();
 				user.setId(resultSet.getLong("id"));
 				user.setEmail(resultSet.getString("email"));
+				user.setUsername(resultSet.getString("username"));
+				user.setUtype(resultSet.getString("usertype"));
 				return user;
 			}
 		
@@ -413,5 +416,58 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();	
 		}
+	}
+	
+	public int getUserTypeByEmail(String email) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "SELECT usertype FROM user WHERE email = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, email);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				return resultSet.getInt("usertype");
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	public User getUserByUsername(String username) {
+		User user = new User();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		String sql = "SELECT * FROM user WHERE username = ?";
+		
+		try {
+			connection = DBConnnection.getConnection();
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, username);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			if(resultSet.next()) {
+				user.setId(resultSet.getLong("id"));
+				user.setEmail(resultSet.getString("email"));
+				user.setUsername(resultSet.getString("username"));
+				user.setUtype(resultSet.getString("usertype"));
+				return user;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return null;
 	}
 }

@@ -28,4 +28,8 @@ public interface UserDao {
 	public User getUserByEmail(String email);
 	
 	public void resetPassword(String email, String password);
+	
+	public int getUserTypeByEmail(String email);
+	
+	public User getUserByUsername(String username);
 }

@@ -29,32 +29,44 @@ public class RegisterServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String username = req.getParameter("username");
 		String firstname = req.getParameter("firstname");
 		String lastname = req.getParameter("lastname");
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		String cpassword = req.getParameter("cpassword");
+		String company = req.getParameter("company");
 		String city = req.getParameter("city");
+		String country = req.getParameter("country");
 		
-		// catch data and store it into user object
-		// in industry practice, you should VALIDATE IT!!
-		User user = new User();
-		user.setFirstname(firstname);
-		user.setLastname(lastname);
-		user.setEmail(email);
-		user.setPassword(cpassword);
-		user.setCity(city);
-		
-		// pass to UserDaoImpl to insert the data
-		boolean rowAffected = myDao.insert(user);
-		
-		if(rowAffected) {
-			resp.sendRedirect("/jsp-project/confirm");
-			
-		} else {
-			req.setAttribute("errorMessage", "user/email already exists!");
+		//validate password
+		if(!password.matches(cpassword)) {
+			req.setAttribute("errmsg", "Password not match! Please try again.");
 			RequestDispatcher dispatcher = req.getRequestDispatcher("register.jsp");
 			dispatcher.forward(req, resp);
+			
+		} else {
+			User user = new User();
+			user.setUsername(username);
+			user.setFirstname(firstname);
+			user.setLastname(lastname);
+			user.setEmail(email);
+			user.setPassword(cpassword);
+			user.setCompany(company);
+			user.setCity(city);
+			user.setCountry(country);
+			
+			// pass to UserDaoImpl to insert the data
+			boolean rowAffected = myDao.insert(user);
+			
+			if(rowAffected) {
+				resp.sendRedirect("/jsp-project/confirm");
+				
+			} else {
+				req.setAttribute("errorMessage", "user/email already exists!");
+				RequestDispatcher dispatcher = req.getRequestDispatcher("register.jsp");
+				dispatcher.forward(req, resp);
+			}
 		}
 	}
 

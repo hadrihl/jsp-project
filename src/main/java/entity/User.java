@@ -4,6 +4,8 @@ public class User {
 
 	private Long id;
 	
+	private String username;
+	
 	private String firstname;
 	
 	private String lastname;
@@ -17,6 +19,8 @@ public class User {
 	private String company; 
 	
 	private String country;
+	
+	private String userType;
 	
 	// default constructor
 	public User() {
@@ -87,4 +91,21 @@ public class User {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUtype(String userType) {
+		this.userType = userType;
+	}
+	
 }
